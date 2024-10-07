@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://n5inysq3rnk7"]
+
+[ext_resource type="Script" path="res://Level_1/Scripts/player_movment.gd" id="1_wj11a"]
+[ext_resource type="Texture2D" uid="uid://1gdandh86ye3" path="res://Level_1/Assets/Zimos.png" id="2_o2ygf"]
+[ext_resource type="Script" path="res://Level_1/Scripts/gameplay_manager.gd" id="3_bkjyp"]
+[ext_resource type="PackedScene" uid="uid://bwkmbcplum1ig" path="res://Level_1/Scenes/gameplay_menu.tscn" id="4_bou10"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uo0sj"]
+size = Vector2(20, 34.8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_la1ok"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_o2ygf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hj2k7"]
+orientation = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6whdl"]
+size = Vector2(2001, 41)
+
+[node name="Level" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(35, 123)
+scale = Vector2(5, 5)
+script = ExtResource("1_wj11a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0.600001, -1.2)
+shape = SubResource("RectangleShape2D_uo0sj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+texture_filter = 1
+position = Vector2(6.2, 0)
+sprite_frames = SubResource("SpriteFrames_la1ok")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(24.8, 10.8)
+scale = Vector2(2.77145, -1.07504)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(2, 647)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="StaticBody2D"]
+position = Vector2(596, 0)
+scale = Vector2(1000, 20)
+mesh = SubResource("PlaneMesh_hj2k7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(596.5, 0.5)
+shape = SubResource("RectangleShape2D_6whdl")
+
+[node name="Gameplay" type="Node" parent="."]
+
+[node name="Systems" type="Node" parent="Gameplay"]
+
+[node name="GameplayManager" type="Node" parent="Gameplay/Systems"]
+script = ExtResource("3_bkjyp")
+
+[node name="gameplay_menu" parent="." instance=ExtResource("4_bou10")]
